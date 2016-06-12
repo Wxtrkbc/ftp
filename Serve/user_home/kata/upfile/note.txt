@@ -1,0 +1,100 @@
+1.创建一个目录/data。
+解答：
+	mkdir data
+
+2.在/data 下面建立一个文件 oldboy.txt。
+解答：
+	cd data
+	touch oldboy.txt
+
+3.为 oldboy.txt 增加内容为“ I am studying linux.”。
+解答：
+	echo 'I am studying linux.'>>oldboy.txt
+
+	通过vi
+
+4.把 oldboy.txt 文件拷贝到/tmp 下。
+解答：
+	cp oldboy.txt /tmp
+
+5.把/data 目录移动到/root 下。
+解答：
+	mv /data /root
+	
+6.进入/root 目录下的 data 目录，删除 oldboy.txt 文件。
+解答：
+	rm oldboy.txt 可以加上-r
+
+7.接第 6 题，退出到上一级目录，删除 data 目录。
+解答：
+	rmdir data
+	rm -rf data删除非空目录 
+
+8.已知文件 test.txt 内容为：
+test
+liyao
+oldboy
+请给出输出 test.txt 文件内容时，不包含 oldboy 字符串的命令。
+解答：
+	grep -v 'oldboy' test.txt
+	head -2 test.txt
+	sed -n '1,2p' text.txt -n取消自动打印,如果加上 -n 参数后，则只有经过sed 特殊处理的那一行(或者动作)	才会被列出来。
+	awk 'NR==1,NR==2' text.txt #NR hanghao
+
+
+9.请用一条命令完成创建目录/oldboy/test，即创建/oldboy 目录及/oldboy/test 目录
+解答：
+	mkdir -p /oldboy/test
+
+10.已知/tmp 下已经存在 test.txt 文件，如何执行命令才能把/mnt/test.txt 拷贝到/tmp 下覆盖掉
+/tmp/test.txt，而让系统不提示是否覆盖（ root 权限下）。
+解答：
+	\cp /mnt/test.txt /tmp
+	/bin/cp /mnt/test.txt /tmp
+
+11.只查看 ett.txt 文件（共 100 行）内第 20 到第 30 行的内容
+解答：
+	seq 1 100
+	sed -n '20,30p' ett.txt
+	awk 'NR>=20 && NR<=30' ett.txt
+	head -30 ett.txt | tail -11
+
+12.分析图片服务日志，把日志（每个图片访问次数*图片大小的总和）排行，取 top10，也
+就是计算每个 url 的总访问大小
+【附加题： 工作场景高难度加分题,不会的同学可以放弃不答】。
+说明： 本题生产环境应用： 这个功能可以用于 IDC 网站流量带宽很高， 然后通过分析服务器日志哪些元素占用流量过大，
+进而进行优化或裁剪该图片，压缩 js 等措施。
+本题需要输出三个指标： 【访问次数】 【访问次数*单个文件大小】 【文件名（可以带 URL）】
+测试数据
+59.33.26.105 - - [08/Dec/2010:15:43:56 +0800] "GET /static/images/photos/2.jpg HTTP/1.1" 200 11299
+"http://oldboy.blog.51cto.com/static/web/column/17/index.shtml?courseId=43" "Mozilla/4.0 (compatible;
+MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)"
+59.33.26.105 - - [08/Dec/2010:15:43:56 +0800] "GET /static/images/photos/2.jpg HTTP/1.1" 200 11299
+"http://oldboy.blog.51cto.com/static/web/column/17/index.shtml?courseId=43" "Mozilla/4.0 (compatible;
+MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)"
+59.33.26.105 - - [08/Dec/2010:15:44:02 +0800] "GET /static/flex/vedioLoading.swf HTTP/1.1" 200 3583
+"http://oldboy.blog.51cto.com/static/flex/AdobeVideoPlayer.swf?width=590&height=328&url=/[[DYNAMIC]]/2"
+"Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET
+CLR 3.5.30729)"
+124.115.4.18 - - [08/Dec/2010:15:44:15 +0800] "GET /?= HTTP/1.1" 200 46232 "-" "-"
+124.115.4.18 - - [08/Dec/2010:15:44:25 +0800] "GET /static/js/web_js.js HTTP/1.1" 200 4460 "-" "-"
+124.115.4.18 - - [08/Dec/2010:15:44:25 +0800] "GET /static/js/jquery.lazyload.js HTTP/1.1" 200 1627 "-" "-"
+解答：
+	
+
+13、 把/oldboy 目录及其子目录下所有以扩展名.sh 结尾的文件中包含./hostlists.txt 的字符串
+全部替换为../idctest_iplist。【附加题：加分题,不会的同学可以放弃不答】。
+解答：
+	{} 命令行中表示字符串序列 echo {1..5} echo {1,3,9}
+	touch {1..9}.sh
+	echo 'oldboy' >>4.sh
+	echo 'oldboy' >>7.sh
+	echo 'oldboy' >>9.sh
+
+	cp 7.sh 7.sh.bak 备份
+
+	sed -i.ori 's#oldboy#oldgirl#' 7.sh 先备份文件在修改
+
+	xargs 配合管道 将结果变成文件名
+
+	find /oldboy/ -name "*.sh" | xargs sed -i's#oldboy#oldgirl#'
