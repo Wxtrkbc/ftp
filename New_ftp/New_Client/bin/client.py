@@ -18,6 +18,7 @@ class Client:
             '目前自定义的命令仅支持以下操作：\n'
             '\tput|filename',
             '\tget|filename',
+            '\thelp'
         ]
         self.start()
         self.cwd = ''
@@ -30,12 +31,12 @@ class Client:
     def register(self):
         try_counts = 0
         while try_counts < 3:
-            # user = input('请输入用户名：')
-            user = 'ko'
+            user = input('请输入用户名：')
+            # user = 'kobe'
             if len(user) == 0:
                 continue
-            # passwd = input('请输入用密码：')
-            passwd = '123'
+            passwd = input('请输入用密码：')
+            # passwd = '123'
             if len(passwd) == 0:
                 continue
             pd = hashlib.sha256()
@@ -55,13 +56,13 @@ class Client:
     def login(self):
         try_counts = 0
         while try_counts < 3:
-            # user = input('请输入用户名：')
-            user = 'kobe'
+            user = input('请输入用户名：')
+            # user = 'kobe'
             self.user = user
             if len(user) == 0:
                 continue
-            # passwd = input('请输入用密码：')
-            passwd = '123'
+            passwd = input('请输入用密码：')
+            # passwd = '123'
             if len(passwd) == 0:
                 continue
             pd = hashlib.sha256()
@@ -78,10 +79,12 @@ class Client:
 
     def internet(self):
         while True:
-            inp = input('[{} (help)]:'.format(self.cwd))
+            inp = input('[{} h(elp) q(uit)]:'.format(self.cwd))
             # inp = 'ipconfig'
             if '|' in inp:
                 cmd, argv = inp.split('|')
+            elif inp == 'q':
+                break
             else:
                 cmd = inp
                 argv = None
@@ -109,7 +112,7 @@ class Client:
             print(i)
 
     def put(self, argv=None):
-        if len(argv) == None:
+        if argv == None or argv == '':
             print("Please add the file path that you want to upload")
             return
         print('上传之前请确保的文件在用户upload文件夹下')
@@ -203,8 +206,8 @@ class Client:
         except Exception as e:
             sys.exit("Failed to connect server:%s" % e)
         print(self.socket.recv(1024).decode())
-        # inp = input('1、注册，2、登录，3、离开： ')
-        inp = '2'
+        inp = input('1、注册，2、登录，3、离开： ')
+        # inp = '2'
         if inp == '1':
             if self.register():
                 if self.login():     # 登陆成功后进行交互操作
@@ -217,6 +220,6 @@ class Client:
 
 
 if __name__ == '__main__':
-    # address = input('请输入FTP服务端地址(ip:port)：')
-    address = '127.0.0.1:9999'
+    address = input('请输入FTP服务端地址(ip:port)：')
+    # address = '127.0.0.1:9999'
     client = Client(address)

@@ -42,7 +42,7 @@ class Myhandle(socketserver.BaseRequestHandler):
             func(argv)
         else:
             if cmd.startswith('cd'):            #（处理cd命令，subprocess不支持cd命令）
-                os.chdir(cmd.split(' ')[1])
+                os.chdir(cmd.split(' ')[1])     # 将后面的路径取出来交给os.chdir处理
                 self.request.sendall(bytes(str(0), encoding='utf-8'))
                 self.request.sendall(bytes(os.getcwd(), encoding='utf-8'))
             else:
